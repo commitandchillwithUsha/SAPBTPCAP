@@ -1,0 +1,31 @@
+{
+  "xsappname": "student-management",
+  "tenant-mode": "dedicated",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.User",
+      "description": "User access"
+    },
+    {
+      "name": "$XSAPPNAME.Admin",
+      "description": "Administrator access"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "User",
+      "description": "Student Management User",
+      "scope-references": [
+        "$XSAPPNAME.User"
+      ]
+    },
+    {
+      "name": "Admin",
+      "description": "Student Management Administrator",
+      "scope-references": [
+        "$XSAPPNAME.Admin"
+      ]
+    }
+  ],
+  "attributes": []
+}

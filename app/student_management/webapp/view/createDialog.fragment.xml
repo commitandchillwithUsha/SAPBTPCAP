@@ -25,8 +25,6 @@
 			columnsM="1"
 			singleContainerFullSize="false" >
 			<f:content>
-				<Label text="Id" />
-				<Input id="student_id" />
 				<Label text="First Name" />
 				<Input id="firstName"  />
 				<Label text="Last Name" />

@@ -9,6 +9,7 @@
         <content>
 			<Button text="Create" press=".onCreate" />
 			<Button text="Update" press=".onUpdate" />
+			<Button text="Delete" press=".onDeleteStudents" />
 			<table:Table
 				rows="{/Students}"
 				id="student_table"

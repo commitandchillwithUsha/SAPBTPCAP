@@ -1,7 +1,8 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/m/MessageToast"
-], (Controller,MessageToast) => {
+    "sap/m/MessageToast",
+    "sap/m/MessageBox"
+], (Controller,MessageToast,MessageBox) => {
     "use strict";
 
     return Controller.extend("com.studentmanagement.studentmanagement.controller.Student", {
@@ -41,7 +42,7 @@ sap.ui.define([
 	      this.pDialog.open();
         },
         onSaveDialog(){
-         var id= this.getView().byId("student_id").getValue(); 
+        //  var id= this.getView().byId("student_id").getValue(); 
          var firstName= this.getView().byId("firstName").getValue(); 
          var lastName= this.getView().byId("lastName").getValue(); 
          var email= this.getView().byId("email").getValue(); 
@@ -62,7 +63,7 @@ sap.ui.define([
         this.onCloseDialog();             
         },
         onUpdateDialog(){
-          var id=this.getView().byId("student_id_up").getValue(); 
+          // var id=this.getView().byId("student_id_up").getValue(); 
           var firstName=this.getView().byId("firstName_up").getValue(); 
           var lastName=this.getView().byId("lastName_up").getValue(); 
           var email=this.getView().byId("email_up").getValue(); 
@@ -76,7 +77,7 @@ sap.ui.define([
              return;
              }
         //   // Update properties
-           oContext.setProperty("ID", id);
+          //  oContext.setProperty("ID", id);
            oContext.setProperty("firstName", firstName);
            oContext.setProperty("lastName", lastName); 
            oContext.setProperty("email", email); 
@@ -85,7 +86,7 @@ sap.ui.define([
            this.onCloseDialog_update();   
         },
         onCloseDialog(){
-          this.getView().byId("student_id").setValue(""); 
+          // this.getView().byId("student_id").setValue(""); 
           this.getView().byId("firstName").setValue(""); 
           this.getView().byId("lastName").setValue(""); 
           this.getView().byId("email").setValue(""); 
@@ -94,13 +95,82 @@ sap.ui.define([
           this.byId("createDialog").close();
         },
           onCloseDialog_update(){
-          this.getView().byId("student_id_up").setValue("ID"); 
+          // this.getView().byId("student_id_up").setValue("ID"); 
           this.getView().byId("firstName_up").setValue("firstName"); 
           this.getView().byId("lastName_up").setValue("lastName"); 
           this.getView().byId("email_up").setValue("email"); 
           this.getView().byId("age_up").setValue("age"); 
           this.getView().byId("createdAt_up").setValue("createdAt"); 
           this.byId("updateDialog").close();
+        },
+      // onDeleteStudent: function () {
+
+      //   const oTable = this.byId("student_table");
+      //   const iIndex = oTable.getSelectedIndex();
+
+      //   if (iIndex === -1) {
+      //     sap.m.MessageToast.show("Please select a row to delete");
+      //     return;
+      //   }
+
+      //   const oCtx = oTable.getContextByIndex(iIndex);
+
+      //   // Confirmation dialog
+      //   sap.m.MessageBox.confirm(
+      //     "Are you sure you want to delete this student?",
+      //     {
+      //       title: "Confirm Delete",
+      //       actions: [
+      //         sap.m.MessageBox.Action.YES,
+      //         sap.m.MessageBox.Action.NO
+      //       ],
+      //       onClose: function (sAction) {
+      //         if (sAction === sap.m.MessageBox.Action.YES) {
+      //           // OData V4 delete
+      //           oCtx.delete()
+      //             .then(function () {
+      //               sap.m.MessageToast.show("Student deleted successfully");
+      //             })
+      //             .catch(function (err) {
+      //               sap.m.MessageBox.error("Delete failed");
+      //               console.error(err);
+      //             });
+      //         }
+      //       }
+      //     }
+      //   );
+      // }
+      onDeleteStudents: function () {
+        const oTable = this.byId("student_table");
+        const aSelectedIndices = oTable.getSelectedIndices();
+        if (aSelectedIndices.length === 0) {
+          sap.m.MessageToast.show("Please select records to delete");
+          return;
         }
+        sap.m.MessageBox.confirm(
+          "Delete selected students?",
+          {
+            title: "Confirm Delete",
+            actions: [
+              sap.m.MessageBox.Action.YES,
+              sap.m.MessageBox.Action.NO
+            ],
+            onClose: (sAction) => {
+              if (sAction === sap.m.MessageBox.Action.YES) {
+                {
+                  for (let i = aSelectedIndices.length - 1; i >= 0; i--) {
+                    const oCtx = oTable.getContextByIndex(aSelectedIndices[i]);
+                    if (oCtx) {
+                      oCtx.delete();
+                    }
+                  }
+                  oTable.clearSelection();
+                }
+              }
+            }
+          }
+        );
+
+      }
 	});
 });
