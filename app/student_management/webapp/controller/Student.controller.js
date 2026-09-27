@@ -164,6 +164,7 @@ sap.ui.define([
                       oCtx.delete();
                     }
                   }
+                  sap.m.MessageToast.show("Selected students deleted");
                   oTable.clearSelection();
                 }
               }
